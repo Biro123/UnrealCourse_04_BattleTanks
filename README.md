@@ -31,3 +31,6 @@ Fire|N/A|X or Mouse Click|Fire Weapon
 * BT   Flat Shading Low Poly Landscapes
 * BT08 More Landscaping Tools
 * BT09 Tank Control System
+* BT   Actors from Multiple Meshes
+* BT   Configuring a Tank
+* BT10 3rd Person Camera Control
