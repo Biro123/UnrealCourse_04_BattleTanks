@@ -18,6 +18,11 @@ class BATTLETANKS_API ATankPlayerController : public APlayerController
 	
 public:
 	ATank* GetcontrolledTank() const;
+
+	// Override and extent the functinoality of the BeginPlay method of AActor (A parent of PlayerController)
+	virtual void BeginPlay() override;   
 	
+private:
+	ATank* ControlledTank = nullptr;
 	
 };
