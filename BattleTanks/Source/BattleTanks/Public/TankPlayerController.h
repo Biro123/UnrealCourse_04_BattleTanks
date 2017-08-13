@@ -21,5 +21,10 @@ private:
 
 	// Override and extend the functionality of the BeginPlay method of AActor (A parent of PlayerController)
 	virtual void BeginPlay() override;   
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 	
+	// Start moving the barrel to hit where the crosshair collides with the world
+	void AimTowardsCrosshair();
 };
