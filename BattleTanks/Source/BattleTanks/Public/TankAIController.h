@@ -16,10 +16,17 @@ class BATTLETANKS_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 	
-private:
-
+public:
 	// Override and extend the functionality of the BeginPlay method of AActor (A parent of PlayerController)
 	virtual void BeginPlay() override;
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+private:
+	ATank* PlayerTank = nullptr;
+
+	ATank* ControlledTank = nullptr;
 
 	ATank* GetControlledTank() const;
 

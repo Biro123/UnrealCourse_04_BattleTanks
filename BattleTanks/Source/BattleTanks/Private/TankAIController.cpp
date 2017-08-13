@@ -7,7 +7,7 @@ void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();   // Ensures that BeginPlay on AActor is being called
 
-	auto ControlledTank = GetControlledTank();
+	ControlledTank = GetControlledTank();
 	if (!ControlledTank)
 	{
 		UE_LOG(LogTemp, Error, TEXT("AIController NOT controlling Tank: %s"), *GetOwner()->GetName())
@@ -17,7 +17,7 @@ void ATankAIController::BeginPlay()
 	}
 
 
-	auto PlayerTank = GetPlayerTank();
+	PlayerTank = GetPlayerTank();
 	if (!PlayerTank)
 	{
 		UE_LOG(LogTemp, Error, TEXT("AIController can't find PlayerTank") )
@@ -26,6 +26,23 @@ void ATankAIController::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("AIController found Player Tank %s"),	*PlayerTank->GetName())
 	}
 
+}
+
+// Called every frame
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (!PlayerTank) { return; }
+	if (!ControlledTank) { return; }
+
+	// TODO Move towards Player
+
+	// Aim at the player
+	ControlledTank->AimAt(PlayerTank->GetActorLocation());
+
+	// TODO Fire when ready
+	
 }
 
 ATank* ATankAIController::GetControlledTank() const
