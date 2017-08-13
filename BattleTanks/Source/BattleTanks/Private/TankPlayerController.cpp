@@ -6,19 +6,19 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();   // Ensures that BeginPlay on AActor is being called
 	
-	ControlledTank = GetcontrolledTank();
+	auto ControlledTank = GetControlledTank();
 	if (!ControlledTank)
 	{
-		UE_LOG(LogTemp, Error, TEXT("ControlledTank not found for %s"), *GetOwner()->GetName())
+		UE_LOG(LogTemp, Error, TEXT("PlayerController NOT Controlling Tank: %s"), *GetOwner()->GetName())
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("Found Controlled Tank: %s"), *ControlledTank->GetName())
+		UE_LOG(LogTemp, Warning, TEXT("PlayerController Controlling Tank: %s"), *ControlledTank->GetName())
 	}
 
 }
 
 
-ATank* ATankPlayerController::GetcontrolledTank() const
+ATank* ATankPlayerController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
 }
