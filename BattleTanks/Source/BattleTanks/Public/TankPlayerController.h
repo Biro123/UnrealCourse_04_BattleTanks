@@ -30,6 +30,9 @@ private:
 	UPROPERTY(EditAnywhere)
 		float CrossHairYLocation = 0.33333f;
 
+	UPROPERTY(EditAnywhere)
+		float LineTraceRange = 1000000;
+
 	ATank* GetControlledTank() const;
 
 	// Start moving the barrel to hit where the crosshair collides with the world
@@ -40,4 +43,7 @@ private:
 
 	// Returns LookDirection as a Vector
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+
+	// Returns location in the world hit by the ray-trace as a Vector
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const;
 };

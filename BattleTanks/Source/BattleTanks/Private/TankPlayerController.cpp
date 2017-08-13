@@ -45,7 +45,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 		UE_LOG(LogTemp, Warning, TEXT("HitLocation = %s"), *HitLocation.ToString());
 	}
 
-
 }
 
 // Get world location when linetraced through crosshair, returns true if landscape hit
@@ -62,10 +61,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	FVector LookDirection;
 	if ( GetLookDirection(ScreenLocation, LookDirection) )
 	{
-		UE_LOG(LogTemp, Warning, TEXT("LookDirection = %s"), *LookDirection.ToString());
+		// Line-trace along that LookDirection and see what we hit (up to max range)
+		GetLookVectorHitLocation(LookDirection, OutHitLocation);
 	}
-
-	// Line-trace along that LookDirection and see what we hit (up to max range)
+	// TODO Should not simply return true
 	return true;
 }
 
@@ -78,5 +77,33 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 		ScreenLocation.Y,
 		WorldLocation,
 		LookDirection);
+}
 
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const
+{
+	FHitResult HitResult;
+	auto StartLocation = PlayerCameraManager->GetCameraLocation();
+	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
+	
+	/// Setup Query Parameters
+	FCollisionQueryParams TraceQueryParameters(FName(TEXT("")), false, GetOwner());
+	FCollisionResponseParams TraceResponseParameters(ECollisionResponse::ECR_Block);
+
+	if (GetWorld()->LineTraceSingleByChannel(
+			HitResult,
+			StartLocation,
+			EndLocation,
+			ECollisionChannel::ECC_Visibility,
+			TraceQueryParameters,
+			TraceResponseParameters
+			)
+		)
+	{
+		OutHitLocation = HitResult.Location;
+		return true;
+	}
+
+	// Hit not found
+	OutHitLocation = FVector(0);
+	return false;
 }
