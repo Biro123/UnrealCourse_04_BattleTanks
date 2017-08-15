@@ -8,7 +8,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = false;  //TODO Should this tick?
 
 	// ...
 }
@@ -21,7 +21,7 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel) { return; }  //TODO - problem here - Barrel not found
+	if (!Barrel) { return; }  
 		
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -34,6 +34,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		StartLocation,
 		HitLocation,
 		LaunchSpeed,
+		false,
+		0.0f,
+		0.0f,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 
@@ -44,7 +47,13 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		MoveBarrelTowards(AimDirection);
 		
 	}
+	else {
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f: No Aim Soln found"), Time);
+	}
 	// if no solution found - do nothing
+
+
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
