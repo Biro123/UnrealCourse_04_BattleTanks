@@ -15,7 +15,6 @@ ATank::ATank()
 	// No need to protect pointer as added at construction (in code)
 	// Creates components in BluePrint, I think??
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
-	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 
 }
 
